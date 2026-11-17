@@ -1,0 +1,48 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tab-aicl"
+version = "0.1.0"
+description = "Unofficial implementation of Active In-Context Learning for Tabular Foundation Models (Tab-AICL)"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+keywords = ["active learning", "in-context learning", "tabpfn", "tabular data", "foundation models"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.2",
+    "scikit-learn>=1.4",
+    "tabpfn>=6.2",
+]
+
+[project.optional-dependencies]
+baselines = ["catboost", "xgboost"]
+benchmark = ["catboost", "xgboost", "scipy>=1.11", "matplotlib"]
+dev = ["pytest"]
+
+[project.scripts]
+tab-aicl-benchmark = "tab_aicl.benchmark:main"
+
+[project.urls]
+Paper = "https://arxiv.org/abs/2603.27385"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tab_aicl"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: runs the real TabPFN model (deselect with -m 'not slow')"]
+
+[tool.ruff]
+line-length = 150
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
